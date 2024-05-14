@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+        - name: container1
+          # command:
+          #   - "/bin/bash"
+          #   - "-c"
+          #   - "while true; do echo \"asdas\"; done"
+          image: nginx
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+            requests:
+              memory: "128Mi"
+              cpu: "200m"
+        - name: container2
+          # command:
+          #   - "/bin/bash"
+          #   - "-c"
+          #   - "while true; do echo \"asdas\"; done"
+          image: busybox
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+            requests:
+              memory: "128Mi"
+              cpu: "200m"

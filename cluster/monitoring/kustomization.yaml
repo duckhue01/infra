@@ -1,0 +1,6 @@
+resources:
+  - ./grafana
+  - otel.yaml
+  - prometheus.yaml
+  - ./ns.yaml
+namespace: monitoring
