@@ -1,0 +1,5 @@
+resources:
+  - ./ns.yaml
+  - ./operator.yaml
+  - ./crds.yaml
+namespace: grafana-system

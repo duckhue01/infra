@@ -1,2 +1,5 @@
 resources:
   - ./grafana.yaml
+  - ./datasource.yaml
+  - ./dashboard.yaml
+  - ./folder.yaml

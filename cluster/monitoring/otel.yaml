@@ -94,6 +94,7 @@ spec:
         extract:
           metadata:
             # - k8s.pod.name
+            - k8s.container.name
             - k8s.pod.uid
             - k8s.deployment.name
             # - k8s.namespace.name
@@ -103,11 +104,18 @@ spec:
           - sources:
               - from: resource_attribute
                 name: k8s.pod.uid
+              # - from: resource_attribute
+              #   name: k8s.container.name
 
+      resource/remove_container_id:
+        attributes:
+          - action: delete
+            key: container.id
+  
     exporters:
       prometheus:
         endpoint: "0.0.0.0:9090"
-        metric_expiration: 180m
+        metric_expiration: 5m
         resource_to_telemetry_conversion:
           enabled: true
 
@@ -141,7 +149,6 @@ spec:
         size_in_percentage: 20
       k8s_observer:
         auth_type: serviceAccount
-        node: ${K8S_NODE_NAME}
         observe_pods: true
         observe_nodes: true
 
@@ -154,11 +161,17 @@ spec:
         #   exporters: [loki,logging]
 
         metrics:
-          receivers: [k8s_cluster, receiver_creator]
-          processors: [memory_limiter, k8sattributes, batch]
-          exporters: [prometheus]
+          receivers:
+            - k8s_cluster
+            - receiver_creator
+          processors:
+            - memory_limiter
+            - k8sattributes
+            - resource/remove_container_id
+            - batch
+          exporters:
+            - prometheus
 ---
-
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -246,4 +259,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: otelcontribcol
-    namespace: default
+    namespace: monitoring

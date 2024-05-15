@@ -1,0 +1,27 @@
+all:
+  hosts:
+    # snake:
+    #   ansible_host: 192.168.0.104
+    #   ip: 192.168.0.104
+    #   access_ip: 192.168.0.104
+    dragon:
+      ansible_host: 192.168.0.107
+      ip: 192.168.0.107
+      access_ip: 192.168.0.107
+  children:
+    kube_control_plane:
+      hosts:
+        dragon:
+    kube_node:
+      hosts:
+        dragon:
+    etcd:
+      hosts:
+        dragon:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}
+

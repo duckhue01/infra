@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: load
+  name: load1
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: test
@@ -27,11 +27,11 @@ spec:
               memory: "128Mi"
               cpu: "200m"
         - name: container2
-          # command:
-          #   - "/bin/bash"
-          #   - "-c"
-          #   - "while true; do echo \"asdas\"; done"
-          image: busybox
+          command:
+            - "/bin/bash"
+            - "-c"
+            - "while true; do echo \"asdas\"; done"
+          image: ubuntu
           resources:
             limits:
               memory: "256Mi"
