@@ -9,6 +9,6 @@ all:
       ip: 192.168.0.107
       access_ip: 192.168.0.107
     rabbit:
-      ansible_host: 192.168.0.102
+      ansible_host: 192.168.0.111
       ip: 192.168.0.102
       access_ip: 192.168.0.102
