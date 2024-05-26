@@ -1,0 +1,14 @@
+all:
+  hosts:
+    snake:
+      ansible_host: 192.168.0.104
+      ip: 192.168.0.104
+      access_ip: 192.168.0.104
+    dragon:
+      ansible_host: 192.168.0.107
+      ip: 192.168.0.107
+      access_ip: 192.168.0.107
+    rabbit:
+      ansible_host: 192.168.0.102
+      ip: 192.168.0.102
+      access_ip: 192.168.0.102

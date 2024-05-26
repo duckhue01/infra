@@ -1,9 +1,9 @@
 all:
   hosts:
-    # snake:
-    #   ansible_host: 192.168.0.104
-    #   ip: 192.168.0.104
-    #   access_ip: 192.168.0.104
+    snake:
+      ansible_host: 192.168.0.104
+      ip: 192.168.0.104
+      access_ip: 192.168.0.104
     dragon:
       ansible_host: 192.168.0.107
       ip: 192.168.0.107
@@ -15,6 +15,7 @@ all:
     kube_node:
       hosts:
         dragon:
+        snake:
     etcd:
       hosts:
         dragon:

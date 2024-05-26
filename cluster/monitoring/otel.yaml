@@ -51,9 +51,9 @@ spec:
               insecure_skip_verify: true
               extra_metadata_labels:
                 - container.id
-                # - k8s.volume.type
+                - k8s.volume.type
               metric_groups:
-                # - node
+                - node
                 - pod
                 - volume
                 - container
