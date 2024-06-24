@@ -3,4 +3,5 @@ resources:
   - otel.yaml
   - prometheus.yaml
   - ./ns.yaml
+  - otel-agent.yaml
 namespace: monitoring

@@ -19,13 +19,16 @@ spec:
           fieldPath: spec.nodeName
   config:
     receivers:
-      # hostmetrics:
-      #     collection_interval: 30s
-      #     scrapers:
-      #       cpu:
-      #       memory:
-      #       load:
-      #         cpu_average: true
+      prometheus:
+        config:
+          scrape_configs:
+            - job_name: "instance"
+              scrape_interval: 5s
+              static_configs:
+                - targets:
+                    - 192.168.0.107:9100
+                    - 192.168.0.111:9100
+                    - 192.168.0.104:9100
 
       k8s_cluster:
         collection_interval: 10s
@@ -111,7 +114,7 @@ spec:
         attributes:
           - action: delete
             key: container.id
-  
+
     exporters:
       prometheus:
         endpoint: "0.0.0.0:9090"
@@ -164,6 +167,7 @@ spec:
           receivers:
             - k8s_cluster
             - receiver_creator
+            - prometheus
           processors:
             - memory_limiter
             - k8sattributes

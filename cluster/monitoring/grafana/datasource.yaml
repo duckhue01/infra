@@ -1,12 +1,57 @@
+# kind: Secret
+# apiVersion: v1
+# metadata:
+#   name: credentials
+#   namespace: grafana
+# stringData:
+#   PROMETHEUS_USERNAME: "root"
+#   PROMETHEUS_PASSWORD: "secret"
+# type: Opaque
+# ---
+# apiVersion: grafana.integreatly.org/v1beta1
+# kind: GrafanaDatasource
+# metadata:
+#   name: prometheus
+# spec:
+#   valuesFrom:
+#     - targetPath: "user"
+#       valueFrom:
+#         secretKeyRef:
+#           name: "credentials"
+#           key: "PROMETHEUS_USERNAME"
+#     - targetPath: "secureJsonData.password"
+#       valueFrom:
+#         secretKeyRef:
+#           name: "credentials"
+#           key: "PROMETHEUS_PASSWORD"
+#   instanceSelector:
+#     matchLabels:
+#       dashboards: "grafana"
+#   datasource:
+#     name: prometheus
+#     type: prometheus
+#     # access: proxy
+#     basicAuth: true
+#     url: http://prometheus-operated:9090
+#     isDefault: true
+#     user: "root"
+#     jsonData:
+#       "tlsSkipVerify": true
+#       "timeInterval": "5s"
+#     secureJsonData:
+#       "password": ${PROMETHEUS_PASSWORD} # Notice the brakes around PROMETHEUS_PASSWORD
+
+
+---
 kind: Secret
 apiVersion: v1
 metadata:
   name: credentials
-  namespace: grafana
 stringData:
   PROMETHEUS_USERNAME: root
   PROMETHEUS_PASSWORD: secret
 type: Opaque
+
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
@@ -30,11 +75,11 @@ spec:
   datasource:
     name: prometheus
     type: prometheus
-    # access: proxy
-    basicAuth: false
+    access: proxy
+    basicAuth: true
     url: http://prometheus-operated:9090
     isDefault: true
-    user: ""
+    user: ${PROMETHEUS_USERNAME}
     jsonData:
       "tlsSkipVerify": true
       "timeInterval": "5s"

@@ -1,0 +1,53 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otel-agent
+spec:
+  image: otel/opentelemetry-collector-contrib-dev:latest
+  mode: daemonset
+  # serviceAccount: otelcontribcol
+  volumes:
+    - name: varlogpods
+      hostPath:
+        path: /var/log/pods
+    - name: varlibdockercontainers
+      hostPath:
+        path: /var/lib/docker/containers
+  volumeMounts:
+    - name: varlogpods
+      mountPath: /var/log/pods
+      readOnly: true
+    - name: varlibdockercontainers
+      mountPath: /var/lib/docker/containers
+      readOnly: true
+  config:
+    receivers:
+      filelog:
+        include_file_path: true
+        include:
+          - /var/log/pods/*/*/*.log
+        operators:
+          - id: container-parser
+            type: container
+            add_metadata_from_filepath: true
+    processors:
+      batch:
+        send_batch_max_size: 1000
+        timeout: 30s
+        send_batch_size: 800
+
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 70
+        spike_limit_percentage: 30
+
+    exporters:
+      otlphttp:
+        endpoint: http://192.168.0.111:3100/otlp
+
+    service:
+      pipelines:
+        logs:
+          receivers: [filelog]
+          processors: [batch, memory_limiter]
+          exporters: [otlphttp]
