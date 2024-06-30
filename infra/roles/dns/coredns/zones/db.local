@@ -1,0 +1,17 @@
+$ORIGIN local.  ; designates the start of this zone file in the namespace
+$TTL 1h               ; default expiration time of all resource records without their own TTL value
+
+; =============================== Resource Records ==============================
+
+@                 IN  SOA     ns.local. rtiger.local. (
+                                  2020010510     ; Serial
+                                  1d             ; Refresh
+                                  2h             ; Retry
+                                  4w             ; Expire
+                                  1h)            ; Minimum TTL
+@                 IN  A       10.210.84.60       ; Local IPv4 address for local.
+@                 IN  NS      ns.local.          ; Name server for local.
+ns                IN  CNAME   @                  ; Alias for ns.local
+
+cluster IN A 192.168.0.200 ;
+*.cluster IN CNAME cluster ;

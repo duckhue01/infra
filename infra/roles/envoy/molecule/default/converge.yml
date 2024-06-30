@@ -1,0 +1,13 @@
+---
+- name: Facts
+  hosts: all
+  tasks:
+    - name: Gathering facts
+      debug:
+        msg: "Only gathering facts before convege"
+- name: Converge
+  hosts: envoyproxy
+  tasks:
+    - name: "include envoyproxy role defaults"
+      include_role:
+        name: "hugoprudente.envoyproxy"

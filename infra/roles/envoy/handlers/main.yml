@@ -1,0 +1,36 @@
+---
+- name: (Handler) Systemd daemon-reload
+  systemd:
+    daemon_reload: yes
+
+- name: (Handler) Start/reload Envoy Proxy
+  service:
+    name: envoyproxy
+    state: reloaded
+    enabled: yes
+  when:
+    - envoyproxy_start | bool
+    - not ansible_check_mode | bool
+  listen: (Handler) Run Envoy Proxy
+
+- name: (Handler) Check Envoy Proxy
+  command: "/usr/bin/envoy --mode validate -c {{ envoyproxy_config_path }}/{{ envoyproxy_config_name }}"
+  register: config_check
+  ignore_errors: yes
+  check_mode: no
+  changed_when: false
+  listen: (Handler) Run Envoy Proxy
+  when:
+    - envoyproxy_install_from != "container"
+
+- name: (Handler) Print Envoy Proxy error if syntax check fails
+  debug:
+    var: config_check.stderr_lines
+  failed_when: config_check.rc != 0
+  when:
+    - config_check.stderr_lines is defined
+    - config_check.rc != 0
+  listen: (Handler) Run Envoy Proxy
+
+- name: (Handler) Run logrotate
+  command: logrotate -f /etc/logrotate.d/envoyproxy

@@ -1,0 +1,31 @@
+- name: Create database instance
+  become: true
+  hosts: rabbit
+  roles:
+    - pg
+
+
+- name: Create database & user for QE services
+  hosts: rabbit
+  become_user: postgres
+  become: true
+  vars:
+    services:
+      - manage_permission
+      - api_gateway
+      - dashboard
+  tasks:
+    - name: create databases
+      postgresql_db:
+        name: "{{ item }}"
+      loop: "{{ services }}"
+    - name: create users
+      postgresql_user:
+        name: "{{ item }}"
+        db: "{{ item }}"
+        password: "{{ item }}"
+        priv: "ALL"
+        state: present
+        expires: infinity
+      loop: "{{ services }}"
+

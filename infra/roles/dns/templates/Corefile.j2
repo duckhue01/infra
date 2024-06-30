@@ -1,0 +1,13 @@
+.:53 {
+    forward . 10.210.0.5 10.210.0.6
+    log
+    errors
+    prometheus
+}
+
+zubin:53 {
+    file /etc/coredns/zones/db.local
+    log
+    errors
+    prometheus
+}

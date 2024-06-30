@@ -1,4 +1,4 @@
 resources:
   - ./grafana
-  - ./prometheus
+  # - ./prometheus
   - ./opentelemetry

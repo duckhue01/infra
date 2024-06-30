@@ -1,0 +1,23 @@
+- hosts: rabbit
+  tasks:
+    - name: Add the user 'ansible' with a specific uid and a primary group of 'sudo'
+      become: true
+      ansible.builtin.user:
+        name: ansible
+        comment: Ansible
+        uid: 1050
+        group: sudo
+    - name: Make users passwordless for sudo in group sudo
+      become: true
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%sudo'
+        line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+    - name: Set authorized key for ansible
+      become: true
+      ansible.posix.authorized_key:
+        user: "ansible"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_ecdsa.pub') }}"

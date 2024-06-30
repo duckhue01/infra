@@ -1,4 +1,6 @@
 resources:
-  - monitoring
+  - cert-manager.yaml
   - ../operator
-  - default
+  - monitoring
+  # - default
+  # - ingress-nginx.yaml

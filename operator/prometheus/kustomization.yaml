@@ -1,5 +1,5 @@
 resources:
   - ./ns.yaml
   - ./operator.yaml
-  # - ./crds.yaml
+  - ./crds.yaml
 namespace: prometheus-system

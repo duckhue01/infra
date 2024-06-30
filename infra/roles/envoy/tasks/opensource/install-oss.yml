@@ -1,0 +1,21 @@
+---
+- name: Install Envoy Proxy in Linux systems
+  block:
+    - name: Install Envoy Proxy from repository
+      include_tasks: "{{ role_path }}/tasks/opensource/install-{{ ansible_facts['os_family'] | lower }}.yml"
+      when: envoyproxy_install_from == "envoyproxy_repository"
+
+    - name: Install Envoy Proxy from source
+      include_tasks: "{{ role_path }}/tasks/opensource/install-source.yml"
+      when: envoyproxy_install_from == "source"
+
+    - name: Install Envoy Proxy from container
+      include_tasks: "{{ role_path }}/tasks/opensource/install-container.yml"
+      when: envoyproxy_install_from == "container"
+
+    - name: Install Envoy Proxy systemd
+      include_tasks: "{{ role_path }}/tasks/config/setup-systemd.yml"
+      tags: envoyproxy_setup_systemd
+      when:
+        - ansible_facts['service_mgr'] == "systemd"
+  when: ansible_facts['system']

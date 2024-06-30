@@ -1,0 +1,15 @@
+---
+coredns_version: 1.8.3
+coredns_dns_port: 53
+
+# Config file name, searched in ansible templates path.
+coredns_config_file: "Corefile.j2"
+
+# Use a local binary instead of the official release.
+coredns_binary_local_dir: ""
+
+coredns_zone_files_paths:
+  - "coredns/zones/*"
+
+coredns_key_files_paths:
+  - "coredns/keys/*"
