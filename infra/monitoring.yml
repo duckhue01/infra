@@ -1,0 +1,5 @@
+- name: Monitoring system
+  hosts: snake
+  become: true
+  roles:
+    - elasticsearch

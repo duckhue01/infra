@@ -1,0 +1,20 @@
+---
+# handlers file for kibana
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - gnupg2
+    state: present
+
+- name: Add Elasticsearch apt key.
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+    keyring: /usr/share/keyrings/elasticsearch-keyring.gpg
+
+- name: Add Elasticsearch repository.
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main"
+    state: present
+    update_cache: true

@@ -1,0 +1,19 @@
+---
+# tasks file for elasticsearch
+- name: Include Debian tasks
+  include_tasks: debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Install
+  ansible.builtin.apt:
+    name: elasticsearch
+    state: present
+
+- name: Config elasticsearch.yml
+  ansible.builtin.copy:
+    src: ../templates/elasticsearch.yml
+    dest: /etc/elasticsearch/elasticsearch.yml
+    owner: root
+    group: elasticsearch
+    mode: "0660"
+  notify: restart elasticsearch
