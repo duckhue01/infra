@@ -17,3 +17,15 @@
     group: elasticsearch
     mode: "0660"
   notify: restart elasticsearch
+
+- name: Start Elasticsearch.
+  service:
+    name: elasticsearch
+    state: started
+    enabled: true
+
+- name: Run Elasticsearch Reset Password Command
+  command: /usr/share/elasticsearch/bin/elasticsearch-reset-password auto -u elastic
+  args:
+    stdin: "y\n"
+  register: reset_password_output

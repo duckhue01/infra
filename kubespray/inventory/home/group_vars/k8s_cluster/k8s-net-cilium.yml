@@ -48,7 +48,7 @@ cilium_l2announcements: false
 # cilium_loadbalancer_mode: snat
 
 # Optional features
-# cilium_enable_prometheus: false
+cilium_enable_prometheus: true
 # Enable if you want to make use of hostPort mappings
 # cilium_enable_portmap: false
 # Monitor aggregation level (none/low/medium/maximum)
@@ -152,17 +152,19 @@ cilium_enable_hubble: true
 cilium_enable_hubble_metrics: true
 ## if cilium_enable_hubble_metrics: true
 cilium_hubble_metrics:
-- dns
-- drop
-- tcp
-- flow
-- icmp
-- http
+  - dns
+  - drop
+  - tcp
+  - flows-to-world
+  - icmp
+  - port-distribution
+  - flow
+  - kafka
+  - httpV2:sourceContext=workload-name|pod-name|reserved-identity;destinationContext=workload-name|pod-name|reserved-identity;labelsContext=source_namespace,destination_namespace,traffic_direction
 ## Enable Hubble install
 cilium_hubble_install: true
 ## Enable auto generate certs if cilium_hubble_install: true
 cilium_hubble_tls_generate: true
-
 # IP address management mode for v1.9+.
 # https://docs.cilium.io/en/v1.9/concepts/networking/ipam/
 # cilium_ipam_mode: kubernetes

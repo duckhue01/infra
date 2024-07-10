@@ -1,2 +1,36 @@
 ---
-# tasks file for kibana
+- name: Include Debian tasks
+  include_tasks: debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Install
+  ansible.builtin.apt:
+    name: elasticsearch
+    state: present
+
+- name: Config kibana.yml
+  ansible.builtin.copy:
+    src: ../templates/kibana.yml
+    dest: /etc/kibana/kibana.yml
+    owner: root
+    group: kibana
+    mode: "0660"
+
+- name: Run Elasticsearch Create Enrollment Token Command
+  ansible.builtin.command: /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
+  register: token_response
+
+- name: Extract Token from Response
+  set_fact:
+    enrollment_token: "{{ token_response.stdout }}"
+
+- name: Run Kibana Enrollment Token Command
+  ansible.builtin.command: /usr/share/kibana/bin/kibana-setup --enrollment-token {{ enrollment_token }}
+  args:
+    stdin: "y\n"
+
+- name: Start Kibana
+  service:
+    name: kibana
+    state: started
+    enabled: true

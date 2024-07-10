@@ -1,4 +1,4 @@
-- hosts: all
+- name: ELasticsearch cluster
+  hosts: snake
   roles:
-    - role: monitoring
-  
+    - elasticsearch
