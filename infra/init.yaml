@@ -1,4 +1,4 @@
-- hosts: rabbit
+- hosts: n
   tasks:
     - name: Add the user 'ansible' with a specific uid and a primary group of 'sudo'
       become: true

@@ -8,3 +8,11 @@ all:
       ansible_host: 192.168.0.107
       ip: 192.168.0.107
       access_ip: 192.168.0.107
+    node1:
+      ansible_host: 10.210.255.34
+    node2:
+      ansible_host: 10.210.255.33
+    node3:
+      ansible_host: 10.210.255.7
+    node4:
+      ansible_host: 10.210.255.35

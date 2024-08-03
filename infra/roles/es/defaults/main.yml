@@ -1,0 +1,5 @@
+---
+# defaults file for es
+
+es_cluster_name: elasticsearch
+es_enable_security: false

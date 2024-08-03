@@ -1,4 +1,35 @@
-- name: ELasticsearch cluster
-  hosts: snake
+# Setup elasticseach node1
+- name: setup node1
+  hosts: node1
   roles:
-    - elasticsearch
+    - es
+  vars:
+    es_node_name: node1
+  become: true
+
+# Setup elasticseach node2
+- name: setup node2
+  hosts: node2
+  roles:
+    - es
+  vars:
+    es_node_name: node2
+  become: true
+
+# Setup elasticseach node3
+- name: setup node3
+  hosts: node3
+  roles:
+    - es
+  vars:
+    es_node_name: node3
+  become: true
+
+# Setup elasticseach node4
+- name: setup node4
+  hosts: node4
+  roles:
+    - es
+  vars:
+    es_node_name: node4
+  become: true
