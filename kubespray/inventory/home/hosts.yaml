@@ -1,17 +1,36 @@
+# all:
+#   hosts:
+#     snake:
+#       ansible_host: 192.168.100.27
+#   children:
+#     kube_control_plane:
+#       hosts:
+#         snake:
+#     kube_node:
+#       hosts:
+#         snake:
+#     etcd:
+#       hosts:
+#         snake:
+#     k8s_cluster:
+#       children:
+#         kube_control_plane:
+#         kube_node:
+
 all:
   hosts:
-    snake:
-      ansible_host: 192.168.100.27
+    dragon:
+      ansible_host: 192.168.100.108
   children:
     kube_control_plane:
       hosts:
-        snake:
+        dragon:
     kube_node:
       hosts:
-        snake:
+        dragon:
     etcd:
       hosts:
-        snake:
+        dragon:
     k8s_cluster:
       children:
         kube_control_plane:
