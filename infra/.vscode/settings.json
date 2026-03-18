@@ -1,4 +1,0 @@
-{
-  "ansible.python.interpreterPath": "/opt/python/3.12.4/bin/python3.12",
-  "ansible.python.activationScript": "/home/duckhue01/infra/infra/venv/bin/activate",
-}

@@ -1,4 +1,0 @@
-resources:
-  - ./ns.yaml
-  - ./opentelemetry-operator.yaml
-namespace: opentelemetry-operator-system

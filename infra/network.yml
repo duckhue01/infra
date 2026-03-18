@@ -1,2 +1,0 @@
-- hosts: rabbit
-  name: Install DNS server
