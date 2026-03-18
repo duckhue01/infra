@@ -8,7 +8,7 @@ spec:
   prune: true
   force: true
   interval: 3m0s
-  path: ./tools/crossplane
+  path: ./repos/system/tools/crossplane
   sourceRef:
     kind: GitRepository
     name: flux-system

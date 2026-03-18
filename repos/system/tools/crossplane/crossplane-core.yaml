@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 3m0s
-  path: ./tools/crossplane/crossplane-core
+  path: ./repos/system/tools/crossplane/crossplane-core
   prune: true
   sourceRef:
     kind: GitRepository

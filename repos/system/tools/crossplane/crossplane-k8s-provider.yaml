@@ -8,7 +8,7 @@ spec:
   dependsOn:
   - name: crossplane-core
   interval: 3m0s
-  path: ./tools/crossplane/crossplane-k8s-provider
+  path: ./repos/system/tools/crossplane/crossplane-k8s-provider
   prune: true
   sourceRef:
     kind: GitRepository
