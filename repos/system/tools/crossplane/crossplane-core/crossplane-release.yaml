@@ -15,5 +15,6 @@ spec:
         name: crossplane-repository
         namespace: crossplane-system
       interval: 1m
-
-
+  values:
+    args:
+      - "--enable-operations"

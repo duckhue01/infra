@@ -1,0 +1,70 @@
+---
+# ClusterRole so Crossplane Operations can read Ingress resources
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: operations-cert-monitor-access
+  labels:
+    rbac.crossplane.io/aggregate-to-crossplane: "true"
+rules:
+- apiGroups: ["networking.k8s.io"]
+  resources: ["ingresses"]
+  verbs: ["get", "list", "watch", "patch", "update"]
+
+---
+# The target Ingress to monitor (replace with a real one in production)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cert-monitor-target
+  namespace: default
+spec:
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: example-service
+            port:
+              number: 80
+
+---
+# CronOperation: runs certificate check on a schedule.
+# The Python script lives in the cert-monitor-script ConfigMap (script.yaml).
+# Tunable parameters (schedule, warningThresholdDays) are configured here.
+apiVersion: ops.crossplane.io/v1alpha1
+kind: CronOperation
+metadata:
+  name: cert-monitor-cronjob
+spec:
+  # How often to run the certificate check
+  schedule: "0 */6 * * *"   # every 6 hours
+
+  mode: Pipeline
+  pipeline:
+  - step: check-certificate-expiry
+    functionRef:
+      name: crossplane-contrib-function-python
+    requirements:
+      requiredResources:
+      - requirementName: ingress
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        name: cert-monitor-target
+        namespace: default
+    input:
+      apiVersion: python.fn.crossplane.io/v1beta1
+      kind: Script
+      # Reference the script from the ConfigMap (code path)
+      # instead of inlining it here (config path stays clean)
+      scriptFrom:
+        configMapKeyRef:
+          name: cert-monitor-script
+          namespace: crossplane-system
+          key: script.py
+      # Tunable config parameters — change these without touching the script
+      config:
+        warningThresholdDays: 30
