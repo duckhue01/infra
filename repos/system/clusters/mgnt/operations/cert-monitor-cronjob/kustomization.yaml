@@ -1,6 +1,15 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+# Generate the ConfigMap from the real Python file.
+# Kustomize reads script.py and injects it as a ConfigMap key at build time.
+configMapGenerator:
+  - name: cert-monitor-script
+    namespace: crossplane-system
+    options:
+      disableNameSuffixHash: true   # keep the name stable so CronOperation ref doesn't break
+    files:
+      - script.py                   # ← the actual .py file
+
 resources:
-  - script.yaml   # code path  — Python script in a ConfigMap
-  - config.yaml   # config path — CronOperation, RBAC, and target resources
+  - config.yaml   # config path — CronOperation, RBAC, target Ingress

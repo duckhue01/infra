@@ -5,7 +5,6 @@ resources:
 # - clusters-config.yaml
 # - crossplane-eks-composition.yaml
 - crossplane.yaml
-- operations/
 # - karpenter-config.yaml
 # - karpenter-iam.yaml
 # - karpenter.yaml
