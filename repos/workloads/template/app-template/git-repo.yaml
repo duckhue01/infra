@@ -1,0 +1,14 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: app-name
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: branch-name
+  secretRef:
+    name: app-name
+  timeout: 60s
+  url: REPO_PREFIX/app-name-manifests
+
