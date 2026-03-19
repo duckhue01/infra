@@ -2,7 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - cert-monitor-cronjob/
+  # - cert-monitor-cronjob/
   - function.yaml
   # Add more operations here following the same pattern:
   # - another-operation/
