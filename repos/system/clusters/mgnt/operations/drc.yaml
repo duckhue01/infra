@@ -1,0 +1,23 @@
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: function-python-irsa-config
+spec:
+  serviceAccountTemplate:
+    metadata:
+      annotations:
+        # The ARN of the IAM Role created in Step 1
+        eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/cross-plane-function-python
+  deploymentTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: package-runtime
+              # Ensure the AWS SDK inside your function can find the token
+              env:
+                - name: AWS_REGION
+                  value: ap-southeast-1
+      selector:
+        matchLabels:
+          crossplane.io/function-name: "function-python"

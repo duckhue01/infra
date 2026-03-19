@@ -1,0 +1,11 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-python
+  labels:
+    crossplane.io/function-name: function-python
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/function-python:v0.2.1
+  # This links the Function to your IRSA configuration
+  runtimeConfigRef:
+    name: function-python-irsa-config

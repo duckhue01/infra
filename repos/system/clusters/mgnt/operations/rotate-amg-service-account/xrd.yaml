@@ -1,0 +1,33 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xgrafanarotations.operations.example.io
+spec:
+  group: operations.example.io
+  names:
+    kind: XGrafanaRotation
+    plural: xgrafanarotations
+  claimNames:
+    kind: GrafanaRotation
+    plural: grafanarotations
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              workspaceId:
+                type: string
+              serviceAccountId:
+                type: string
+              schedule:
+                type: string
+                default: "0 0 1 * *" # Monthly
+            required:
+            - workspaceId
+            - serviceAccountId

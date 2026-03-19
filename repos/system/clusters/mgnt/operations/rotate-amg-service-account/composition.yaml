@@ -1,0 +1,56 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xgrafanarotations.operations.example.io
+spec:
+  compositeDeletePolicy: Background
+  resources:
+  - name: token-rotation-op
+    base:
+      apiVersion: ops.crossplane.io/v1alpha1
+      kind: CronOperation
+      spec:
+        operationTemplate:
+          spec:
+            mode: Pipeline
+            pipeline:
+            - step: rotate-token
+              functionRef:
+                name: function-python
+              input:
+                apiVersion: fn.crossplane.io/v1beta1
+                kind: PythonInput
+                # The Python logic with boto3
+                source: |
+                  import boto3
+                  from datetime import datetime
+                  
+                  def operate(req, res):
+                      ws_id = req.observed.composite.resource.spec.workspaceId
+                      sa_id = req.observed.composite.resource.spec.serviceAccountId
+                      
+                      client = boto3.client('grafana', region_name='ap-southeast-1')
+                      
+                      # Create new token
+                      new_t = client.create_workspace_service_account_token(
+                          name=f"rot-{datetime.now().strftime('%Y%m%d')}",
+                          secondsToLive=2592000,
+                          serviceAccountId=sa_id,
+                          workspaceId=ws_id
+                      )
+                      
+                      # Logic to update K8s Secret would go here via SDK
+                      return res
+    patches:
+    - fromFieldPath: "spec.workspaceId"
+      toFieldPath: "spec.operationTemplate.spec.pipeline[0].input.workspaceId"
+    - fromFieldPath: "spec.serviceAccountId"
+      toFieldPath: "spec.operationTemplate.spec.pipeline[0].input.serviceAccountId"
+    - fromFieldPath: "spec.schedule"
+      toFieldPath: "spec.schedule"
+  
+  # Ensure you are using the function-python for the Composition logic too
+  functions:
+    - container:
+        image: xpkg.upbound.io/crossplane-contrib/function-patch-and-transform:v0.7.0
+      type: Container
