@@ -5,7 +5,7 @@ kind: Kustomization
 # Kustomize reads script.py and injects it as a ConfigMap key at build time.
 configMapGenerator:
   - name: cert-monitor-script
-    namespace: crossplane-system
+    namespace: operations
     options:
       disableNameSuffixHash: true   # keep the name stable so CronOperation ref doesn't break
     files:
@@ -13,3 +13,5 @@ configMapGenerator:
 
 resources:
   - config.yaml   # config path — CronOperation, RBAC, target Ingress
+
+namespace: operations
