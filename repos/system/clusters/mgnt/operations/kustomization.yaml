@@ -4,6 +4,6 @@ kind: Kustomization
 resources:
   # - cert-monitor-cronjob/
   - function.yaml
+  - ns.yaml
   # Add more operations here following the same pattern:
   # - another-operation/
-namespace: operations
