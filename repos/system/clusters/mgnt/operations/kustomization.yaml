@@ -6,3 +6,4 @@ resources:
   - function.yaml
   # Add more operations here following the same pattern:
   # - another-operation/
+namespace: operations

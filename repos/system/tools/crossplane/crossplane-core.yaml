@@ -19,7 +19,7 @@ spec:
   healthChecks:
   - apiVersion: helm.toolkit.fluxcd.io/v2
     kind: HelmRelease
-    name: crossplane-core
+    name: crossplane-stable
     namespace: crossplane-system
   timeout: 5m
 
