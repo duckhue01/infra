@@ -3,5 +3,3 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - crossplane-core.yaml
-  - crossplane-k8s-provider.yaml
-  - crossplane-k8s-provider-config.yaml
