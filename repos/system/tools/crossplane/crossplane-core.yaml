@@ -21,11 +21,5 @@ spec:
     kind: HelmRelease
     name: crossplane-core
     namespace: crossplane-system
-  - kind: Deployment
-    name: crossplane
-    namespace: crossplane-system
-  - kind: Deployment
-    name: crossplane-rbac-manager
-    namespace: crossplane-system
-  timeout: 2m
+  timeout: 5m
 

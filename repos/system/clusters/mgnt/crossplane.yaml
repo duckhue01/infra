@@ -12,11 +12,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  healthChecks:
-    - apiVersion: batch/v1
-      kind: Job
-      name: k8s-provider-config-job
-      namespace: crossplane-system
   patches:
     - target:
         group: kustomize.toolkit.fluxcd.io
