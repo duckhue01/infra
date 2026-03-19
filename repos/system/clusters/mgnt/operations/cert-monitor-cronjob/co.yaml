@@ -3,7 +3,7 @@ kind: CronOperation
 metadata:
   name: cert-monitor-cronjob
 spec:
-  schedule: "0 */6 * * *"  # every 6 hours
+  schedule: "*/5 * * * *"  # every 5 minutes
   concurrencyPolicy: Forbid
   successfulHistoryLimit: 5
   failedHistoryLimit: 3
